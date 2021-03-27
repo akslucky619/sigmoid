@@ -3,12 +3,14 @@ import ReactDOM from "react-dom";
 import { useSelector } from "react-redux";
 import { connect } from "react-redux";
 import { ACTIONS } from "../reducers/charts";
+import { getAllPieData } from "../selectors/charts";
 
 import "antd/dist/antd.css";
 import "../index.css";
 
 import { Layout, Menu, Breadcrumb } from "antd";
 import DemoPie from "./DemoPie";
+import DateRange from "./DateRange";
 // import user from "../reducers/user";
 
 const { Header, Content, Footer } = Layout;
@@ -22,7 +24,8 @@ class SiderDemo extends React.Component {
   }
 
   render() {
-    console.log(this.props,"-----");
+    console.log(this.props, "-----");
+    const { pieData, startDate, endDate } = this.props;
     return (
       <Layout>
         <Header style={{ position: "fixed", zIndex: 1, width: "100%" }}>
@@ -30,7 +33,7 @@ class SiderDemo extends React.Component {
           <Menu theme="dark" mode="horizontal" defaultSelectedKeys={["2"]}>
             <Menu.Item key="1">nav 1</Menu.Item>
             <Menu.Item key="2">nav 2</Menu.Item>
-            <Menu.Item key="3">nav 3</Menu.Item>
+            <Menu.Item key="3"></Menu.Item>
           </Menu>
         </Header>
         <Content
@@ -38,15 +41,16 @@ class SiderDemo extends React.Component {
           style={{ padding: "0 50px", marginTop: 64 }}
         >
           <Breadcrumb style={{ margin: "16px 0" }}>
-            <Breadcrumb.Item>Home</Breadcrumb.Item>
-            <Breadcrumb.Item>List</Breadcrumb.Item>
-            <Breadcrumb.Item>App</Breadcrumb.Item>
+            <DateRange
+              
+              ACTIONS={ACTIONS}
+            />
           </Breadcrumb>
           <div
             className="site-layout-background"
             style={{ padding: 24, minHeight: 380 }}
           >
-            <DemoPie />
+            {pieData && <DemoPie pieData={pieData} />}
           </div>
         </Content>
         <Content
@@ -76,7 +80,7 @@ class SiderDemo extends React.Component {
 const mapProps = (state) => {
   // const user = state.user;
   // console.log(state);
-  return state;
+  return state.charts;
 };
 
 export default connect(mapProps)(SiderDemo);

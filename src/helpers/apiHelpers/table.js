@@ -41,3 +41,4 @@ export const tableBody = {
 };
 
 export const tableUrl = "https://sigviewauth.sigmoid.io/api/v1/getData";
+
