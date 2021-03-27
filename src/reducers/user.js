@@ -1,25 +1,26 @@
 import { getUser } from "../api/user";
 import { userBody, loginUrl } from "../helpers/apiHelpers/user";
 
-const SET_COUNTER = "SET_COUNTER";
+const SET_USER = "SET_USER";
 
-const setCounter = (count) => ({
-  type: SET_COUNTER,
-  count,
+const setUser = (token) => ({
+  type: SET_USER,
+  token,
 });
 
 const init = () => async (dispatch, getstate) => {
   //   console.log(userBody, loginUrl);
   let a = performance.now();
   const user = await getUser(loginUrl, userBody);
+  const token = user && user.token;
   let b = performance.now();
 
-  console.log(a - b, {user});
-  dispatch(setCounter(1));
+  console.log(a - b, { token });
+  dispatch(setUser(token));
 };
 
 export const defaultState = {
-  count: 0,
+  userToken: null,
 };
 
 export const ACTIONS = {
@@ -28,9 +29,9 @@ export const ACTIONS = {
 
 function user(state = defaultState, action) {
   switch (action.type) {
-    case SET_COUNTER:
+    case SET_USER:
       return Object.assign({}, state, {
-        count: action.count,
+        userToken: action.token,
       });
     default:
       return state;

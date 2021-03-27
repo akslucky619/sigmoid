@@ -1,4 +1,4 @@
-export const table = {
+export const tableBody = {
   _id: "dashboard1516252235693",
   emailId: "candidate@sigmoid.com",
   orgViewReq: {
@@ -39,3 +39,5 @@ export const table = {
     },
   },
 };
+
+export const tableUrl = "https://sigviewauth.sigmoid.io/api/v1/getData";

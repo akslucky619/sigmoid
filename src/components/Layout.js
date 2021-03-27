@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { useSelector } from "react-redux";
 import { connect } from "react-redux";
-import { ACTIONS } from "../reducers/user";
+import { ACTIONS } from "../reducers/charts";
 
 import "antd/dist/antd.css";
 import "../index.css";
@@ -13,8 +13,16 @@ import DemoPie from "./DemoPie";
 
 const { Header, Content, Footer } = Layout;
 class SiderDemo extends React.Component {
+  componentDidMount() {
+    const { init } = ACTIONS;
+    const { userToken } = this.props;
+
+    // console.log(userToken, "hhhhhhhh");
+    userToken && this.props.dispatch(init(userToken));
+  }
+
   render() {
-    // console.log(this.props, ACTIONS);
+    console.log(this.props,"-----");
     return (
       <Layout>
         <Header style={{ position: "fixed", zIndex: 1, width: "100%" }}>
@@ -65,4 +73,10 @@ class SiderDemo extends React.Component {
   }
 }
 
-export default SiderDemo;
+const mapProps = (state) => {
+  // const user = state.user;
+  // console.log(state);
+  return state;
+};
+
+export default connect(mapProps)(SiderDemo);

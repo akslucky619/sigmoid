@@ -1,4 +1,4 @@
-export const pie = {
+export const pieBody = {
   _id: "Datastory_ChartId_1535224664111",
   emailId: "candidate@sigmoid.com",
   orgViewReq: {
@@ -44,3 +44,5 @@ export const pie = {
     },
   },
 };
+
+export const pieUrl = "https://sigview.sigmoid.io/api/v1/getData";

@@ -3,15 +3,23 @@ import { connect } from "react-redux";
 import { ACTIONS } from "../../reducers/user";
 
 import Layout from "../Layout";
+import LoginForm from "../LoginForm";
 
 class Interface extends React.Component {
   componentDidMount() {
     const { init } = ACTIONS;
-    console.log(this.props);
+    // console.log(this.props);
     this.props.dispatch(init());
   }
   render() {
-    return <Layout />;
+    const { userToken } = this.props;
+    console.log(userToken);
+    return (
+      <React.Fragment>
+        {userToken && <Layout userToken={userToken} />}
+        {/* <LoginForm /> */}
+      </React.Fragment>
+    );
   }
 }
 

@@ -1,4 +1,4 @@
-export const bar = {
+export const barBody = {
   _id: "dashboard1516252439345",
   emailId: "candidate@sigmoid.com",
   orgViewReq: {
@@ -39,3 +39,5 @@ export const bar = {
     },
   },
 };
+
+export const barUrl = "https://sigviewauth.sigmoid.io/api/v1/getData";
