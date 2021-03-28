@@ -20,7 +20,9 @@ class DateRange extends React.Component {
     } = this.props;
     const { getMinDate, getMaxDate, updateChart } = ACTIONS;
 
-    const switchStartDate = startDate && Date.parse(startDate);
+    let switchStartDate = startDate && new Date(startDate);
+   switchStartDate && switchStartDate.setDate(switchStartDate.getDate() + 1);
+    let parsedDate = Date.parse(switchStartDate);
 
     return (
       <div style={{ display: "flex" }}>
@@ -39,7 +41,7 @@ class DateRange extends React.Component {
             selected={endDate}
             onChange={(date) => dispatch(getMaxDate(date))}
             minDate={
-              startDate ? new Date(switchStartDate) : new Date(startDateEpoch)
+              startDate ? new Date(parsedDate) : new Date(startDateEpoch)
             }
             maxDate={new Date(endDateEpoch)}
             dateFormat="dd/MM/yyyy"
