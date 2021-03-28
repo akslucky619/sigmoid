@@ -9,28 +9,28 @@ import "react-datepicker/dist/react-datepicker.css";
 
 class DateRange extends React.Component {
   render() {
-    const { startDate, endDate, ACTIONS } = this.props;
-    const { getMinDate, getMaxDate } = ACTIONS;
-    console.log(this.props, "====================");
-    console.log(ACTIONS);
+    const {
+      startDate,
+      endDate,
+      ACTIONS,
+      dispatch,
+      userToken,
+      startDateEpoch,
+      endDateEpoch,
+    } = this.props;
+    const { getMinDate, getMaxDate, updateChart } = ACTIONS;
 
-    this.handleClickMindDate = (date) => {
-      console.log(date, "iiiiinnnnnnn daaaaaaaaate");
-      this.props.dispatch(getMinDate(date));
-    };
+    const switchStartDate = startDate && Date.parse(startDate);
+    console.log(switchStartDate, "switch");
 
-    this.handleClickMaxDate = (date) => {
-      console.log(date, "iiiiinnnnnnn daaaaaaaaate");
-      this.props.dispatch(getMaxDate(date));
-    };
     return (
       <div style={{ display: "flex" }}>
         <div style={{ padding: "5px" }}>
           <DatePicker
             selected={startDate}
-            onChange={(date) => this.handleClickMindDate(date)}
-            minDate={new Date(1491004800000)}
-            maxDate={new Date(1493506800000)}
+            onChange={(date) => dispatch(getMinDate(date))}
+            minDate={new Date(startDateEpoch)}
+            maxDate={new Date(endDateEpoch)}
             dateFormat="dd/MM/yyyy"
             placeholderText="Select start date"
           />
@@ -38,13 +38,26 @@ class DateRange extends React.Component {
         <div style={{ padding: "5px" }}>
           <DatePicker
             selected={endDate}
-            onChange={(date) => this.handleClickMaxDate(date)}
-            minDate={new Date(1491004800000)}
-            maxDate={new Date(1493506800000)}
+            onChange={(date) => dispatch(getMaxDate(date))}
+            minDate={
+              startDate ? new Date(switchStartDate) : new Date(startDateEpoch)
+            }
+            maxDate={new Date(endDateEpoch)}
             dateFormat="dd/MM/yyyy"
             placeholderText="Select start date"
           />
         </div>
+        {startDate && endDate && (
+          <div style={{ padding: "5px" }}>
+            <button
+              onClick={() =>
+                dispatch(updateChart(startDate, endDate, userToken))
+              }
+            >
+              Update Data
+            </button>
+          </div>
+        )}
       </div>
     );
   }

@@ -3,7 +3,7 @@ import { Pie } from "@ant-design/charts";
 
 class DemoPie extends React.Component {
   render() {
-    console.log(this.props, "in pie");
+    // console.log(this.props, "in pie");
     const { pieData } = this.props;
     var data = pieData;
     var config = {

@@ -15,7 +15,6 @@ const init = () => async (dispatch, getstate) => {
   const token = user && user.token;
   let b = performance.now();
 
-  console.log(a - b, { token });
   dispatch(setUser(token));
 };
 

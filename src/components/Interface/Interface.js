@@ -13,7 +13,6 @@ class Interface extends React.Component {
   }
   render() {
     const { userToken } = this.props;
-    console.log(userToken);
     return (
       <React.Fragment>
         {userToken && <Layout userToken={userToken} />}

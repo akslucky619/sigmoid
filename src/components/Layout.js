@@ -11,6 +11,7 @@ import "../index.css";
 import { Layout, Menu, Breadcrumb } from "antd";
 import DemoPie from "./DemoPie";
 import DateRange from "./DateRange";
+import Bar from './Bar'
 // import user from "../reducers/user";
 
 const { Header, Content, Footer } = Layout;
@@ -25,7 +26,7 @@ class SiderDemo extends React.Component {
 
   render() {
     console.log(this.props, "-----");
-    const { pieData, startDate, endDate } = this.props;
+    const { pieData, startDate, endDate, dispatch, userToken } = this.props;
     return (
       <Layout>
         <Header style={{ position: "fixed", zIndex: 1, width: "100%" }}>
@@ -41,10 +42,7 @@ class SiderDemo extends React.Component {
           style={{ padding: "0 50px", marginTop: 64 }}
         >
           <Breadcrumb style={{ margin: "16px 0" }}>
-            <DateRange
-              
-              ACTIONS={ACTIONS}
-            />
+            <DateRange userToken={userToken} ACTIONS={ACTIONS} />
           </Breadcrumb>
           <div
             className="site-layout-background"
@@ -66,7 +64,7 @@ class SiderDemo extends React.Component {
             className="site-layout-background"
             style={{ padding: 24, minHeight: 380 }}
           >
-            Content
+           <Bar/>
           </div>
         </Content>
         <Footer style={{ textAlign: "center" }}>
