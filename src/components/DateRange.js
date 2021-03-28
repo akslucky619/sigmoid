@@ -43,7 +43,7 @@ class DateRange extends React.Component {
             }
             maxDate={new Date(endDateEpoch)}
             dateFormat="dd/MM/yyyy"
-            placeholderText="Select start date"
+            placeholderText="Select end date"
           />
         </div>
         {startDate && endDate && (
