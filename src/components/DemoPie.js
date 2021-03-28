@@ -19,7 +19,12 @@ class DemoPie extends React.Component {
       },
       interactions: [{ type: "element-selected" }, { type: "element-active" }],
     };
-    return <Pie {...config} />;
+    return (
+      <div>
+        <h1>Pie Example</h1>
+        <Pie {...config} />
+      </div>
+    );
   }
 }
 

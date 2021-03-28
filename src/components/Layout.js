@@ -8,7 +8,7 @@ import { getAllPieData } from "../selectors/charts";
 import "antd/dist/antd.css";
 import "../index.css";
 
-import { Layout, Menu, Breadcrumb } from "antd";
+import { Layout, Menu, Breadcrumb, Affix } from "antd";
 import DemoPie from "./DemoPie";
 import DateRange from "./DateRange";
 import BarChart from "./BarChart";
@@ -34,6 +34,7 @@ class SiderDemo extends React.Component {
       dispatch,
       userToken,
       tableData,
+      barData,
     } = this.props;
     console.log({ tableData });
     return (
@@ -90,7 +91,7 @@ class SiderDemo extends React.Component {
             style={{ padding: 24, minHeight: 380 }}
           >
             {/* {tableData.length !== 0 && <BarChart tableData={tableData} />} */}
-            <TableComp />
+            {barData && <TableComp barData={barData} />}
           </div>
         </Content>
         <Footer style={{ textAlign: "center" }}>

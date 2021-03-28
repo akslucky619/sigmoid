@@ -99,9 +99,20 @@ const init = (userToken) => async (dispatch, getstate) => {
     //     table.data.push(Number(data.impressions_offered))
     //   );
 
+    // normalize barApiData data
+    let bar = [];
+
+    barApiData &&
+      barApiData.result.data.map((data) =>
+        bar.push({
+          publisherId: data.publisherId,
+          impressions_offered: Number(data.impressions_offered),
+        })
+      );
+
     dispatch(setPieChartData(pie));
     dispatch(setTableChartData(table));
-    dispatch(setBarChartData(barApiData));
+    dispatch(setBarChartData(bar));
     dispatch(setStartDateEpoch(Number(startDateEpoch)));
     dispatch(setEndDateEpoch(Number(endDateEpoch)));
   } catch (error) {
@@ -128,39 +139,35 @@ const updateChart = (startDate, endDate, userToken) => async (
   console.log({ startDateEpoch, endDateEpoch });
 
   // update pieBody with update date
-  let updatePieBody = pieBody;
+  let updatePieBody = Object.assign(pieBody);
   updatePieBody.chartObject.requestParam.dateRange.startDate = startDateEpoch.toString();
   updatePieBody.chartObject.requestParam.dateRange.endDate = endDateEpoch.toString();
 
   // update tableBody with update date
-  let updateTableBody = tableBody;
+  let updateTableBody = Object.assign(tableBody);
   updateTableBody.chartObject.requestParam.dateRange.startDate = startDateEpoch.toString();
   updateTableBody.chartObject.requestParam.dateRange.endDate = endDateEpoch.toString();
 
-  // // update barBody with update date
-  // let updatebarBody = barBody;
-  // updatebarBody.chartObject.requestParam.dateRange.startDate = startDateEpoch;
-  // updatebarBody.chartObject.requestParam.dateRange.endDate = endDateEpoch;
+  // update barBody with update date
+  let updatebarBody = Object.assign(barBody);
+  updatebarBody.chartObject.requestParam.dateRange.startDate = startDateEpoch.toString();
+  updatebarBody.chartObject.requestParam.dateRange.endDate = endDateEpoch.toString();
 
   // console.log(updatePieBody, "in uuuuuuuuuuuuupppppp");
 
   try {
     const piePromise = getChartData(pieUrl, updatePieBody, userToken);
-    const tablePromise = getChartData(tableUrl, tableBody, userToken);
-    // const barPromise = getChartData(barUrl, barBody, userToken);
-    const [
-      pieApiData,
-      tableApiData,
-      // barApiData
-    ] = await Promise.all([
+    const tablePromise = getChartData(tableUrl, updateTableBody, userToken);
+    const barPromise = getChartData(barUrl, updatebarBody, userToken);
+    const [pieApiData, tableApiData, barApiData] = await Promise.all([
       piePromise,
       tablePromise,
-      // barPromise,
+      barPromise,
     ]);
 
     // console.log({ pieApiData });
-    console.log({ tableApiData });
-    // console.log({ barApiData });
+    // console.log({ tableApiData });
+    console.log({ barApiData });
     let pie = [];
 
     pieApiData &&
@@ -184,17 +191,20 @@ const updateChart = (startDate, endDate, userToken) => async (
     table.data = [...tableData];
     console.log({ tableLabels, tableData, table });
 
-    // tableApiData &&
-    //   tableApiData.result.data.map((data) =>
-    //     table.push({
-    //       action: data.appSiteId,
-    //       pv: Number(data.impressions_offered),
-    //     })
-    //   );
+    // normalize barApiData data
+    let bar = [];
+
+    barApiData &&
+      barApiData.result.data.map((data) =>
+        bar.push({
+          publisherId: data.publisherId,
+          impressions_offered: Number(data.impressions_offered),
+        })
+      );
 
     dispatch(setPieChartData(pie));
     dispatch(setTableChartData(table));
-    // dispatch(setBarChartData(barApiData));
+    dispatch(setBarChartData(bar));
   } catch (error) {
     console.log(error);
   }

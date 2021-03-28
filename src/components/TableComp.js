@@ -6,116 +6,23 @@ import { Table } from "antd";
 
 class TableComp extends React.Component {
   render() {
+    const { barData } = this.props;
+    console.log(barData, "in table");
     const columns = [
       {
-        title: "Name",
-        dataIndex: "name",
+        title: "Publisher ID",
+        dataIndex: "publisherId",
         render: (text) => <a>{text}</a>,
       },
       {
-        title: "Cash Assets",
+        title: "Impression Offered",
         className: "column-money",
-        dataIndex: "money",
+        dataIndex: "impressions_offered",
         align: "right",
-      },
-      {
-        title: "Address",
-        dataIndex: "address",
       },
     ];
 
-    const data = [
-      {
-        key: "1",
-        name: "John Brown",
-        money: "￥300,000.00",
-        address: "New York No. 1 Lake Park",
-      },
-      {
-        key: "2",
-        name: "Jim Green",
-        money: "￥1,256,000.00",
-        address: "London No. 1 Lake Park",
-      },
-      {
-        key: "3",
-        name: "Joe Black",
-        money: "￥120,000.00",
-        address: "Sidney No. 1 Lake Park",
-      },
-      {
-        key: "1",
-        name: "John Brown",
-        money: "￥300,000.00",
-        address: "New York No. 1 Lake Park",
-      },
-      {
-        key: "2",
-        name: "Jim Green",
-        money: "￥1,256,000.00",
-        address: "London No. 1 Lake Park",
-      },
-      {
-        key: "3",
-        name: "Joe Black",
-        money: "￥120,000.00",
-        address: "Sidney No. 1 Lake Park",
-      },
-      {
-        key: "1",
-        name: "John Brown",
-        money: "￥300,000.00",
-        address: "New York No. 1 Lake Park",
-      },
-      {
-        key: "2",
-        name: "Jim Green",
-        money: "￥1,256,000.00",
-        address: "London No. 1 Lake Park",
-      },
-      {
-        key: "3",
-        name: "Joe Black",
-        money: "￥120,000.00",
-        address: "Sidney No. 1 Lake Park",
-      },
-      {
-        key: "1",
-        name: "John Brown",
-        money: "￥300,000.00",
-        address: "New York No. 1 Lake Park",
-      },
-      {
-        key: "2",
-        name: "Jim Green",
-        money: "￥1,256,000.00",
-        address: "London No. 1 Lake Park",
-      },
-      {
-        key: "3",
-        name: "Joe Black",
-        money: "￥120,000.00",
-        address: "Sidney No. 1 Lake Park",
-      },
-      {
-        key: "1",
-        name: "John Brown",
-        money: "￥300,000.00",
-        address: "New York No. 1 Lake Park",
-      },
-      {
-        key: "2",
-        name: "Jim Green",
-        money: "￥1,256,000.00",
-        address: "London No. 1 Lake Park",
-      },
-      {
-        key: "3",
-        name: "Joe Black",
-        money: "￥120,000.00",
-        address: "Sidney No. 1 Lake Park",
-      },
-    ];
+    const data = [...barData];
     const config = {
       bordered: true,
       loading: false,
@@ -127,15 +34,18 @@ class TableComp extends React.Component {
       scroll: { y: 240 },
     };
     return (
-      <Table
-        columns={columns}
-        dataSource={data}
-        bordered
-        // scroll={{ y: 800 }}
-        {...config}
-        title={() => "Header"}
-        footer={() => "Footer"}
-      />
+      <div>
+        <h1>Table Example</h1>
+        <Table
+          columns={columns}
+          dataSource={data}
+          bordered
+          // scroll={{ y: 800 }}
+          {...config}
+          title={() => "Header"}
+          footer={() => "Footer"}
+        />
+      </div>
     );
   }
 }
