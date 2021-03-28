@@ -14,3 +14,15 @@
 .site-page-header {
   border: 1px solid rgb(235, 237, 240);
 }
+
+.ant-layout-content {
+  height: 100vh !important;
+}
+
+/* .ant-breadcrumb {
+  margin: 100px 0px  !important;
+} */
+
+.ant-layout-content {
+  max-height: 600px !important;
+}
