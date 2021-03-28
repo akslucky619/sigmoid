@@ -12,11 +12,11 @@ class Interface extends React.Component {
     this.props.dispatch(init());
   }
   render() {
-    const { login } = ACTIONS;
+    const { login, logout } = ACTIONS;
     const { userToken, dispatch } = this.props;
     return (
       <React.Fragment>
-        {userToken && <Layout login={login} userToken={userToken} />}
+        {userToken && <Layout logout={logout} userToken={userToken} />}
         {!userToken && <LoginForm login={login} dispatch={dispatch} />}
       </React.Fragment>
     );

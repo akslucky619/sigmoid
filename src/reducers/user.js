@@ -8,23 +8,24 @@ const setUser = (token) => ({
   token,
 });
 
-const init = () => async (dispatch, getstate) => {
-  //   console.log(userBody, loginUrl);
+const init = () => async (dispatch) => {
   const token = localStorage.getItem("token");
   token === "undefined" ? dispatch(setUser(null)) : dispatch(setUser(token));
 };
 
-const login = (username, password) => async (dispatch, getstate) => {
+const login = (username, password) => async (dispatch) => {
   const userUpdateBody = { ...userBody, email: username, password: password };
   const user = await getUser(loginUrl, userUpdateBody);
   const token = user && user.token;
-  console.log(token, "--------------");
   token === "undefined"
     ? localStorage.setItem("token", null)
     : localStorage.setItem("token", token);
 
-  console.log({ username, password, userUpdateBody });
   dispatch(init());
+};
+
+const logout = () => (dispatch) => {
+  localStorage.clear();
   window.location.reload();
 };
 
@@ -35,6 +36,7 @@ export const defaultState = {
 export const ACTIONS = {
   init,
   login,
+  logout,
 };
 
 function user(state = defaultState, action) {

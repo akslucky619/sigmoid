@@ -26,3 +26,8 @@
 .ant-layout-content {
   max-height: 600px !important;
 }
+
+.ant-menu {
+  display: flex;
+  justify-content: flex-end;
+}

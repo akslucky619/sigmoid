@@ -3,43 +3,6 @@ import { Bar } from "react-chartjs-2";
 import { connect } from "react-redux";
 
 class BarChart extends React.Component {
-  chartRef = React.createRef();
-
-  //   componentDidMount() {
-  //     const myChartRef = this.chartRef.current.getContext("2d");
-  //     console.log(this.props, "iiiiiin");
-  //     const { tableData } = this.props;
-
-  //     const { labels, data } = tableData && tableData;
-
-  //     new Chart(myChartRef, {
-  //       type: "bar",
-  //       data: {
-  //         labels: [...labels],
-  //         datasets: [
-  //           {
-  //             label: "appSiteId",
-  //             backgroundColor: "#0353a4",
-
-  //             data: [...data],
-  //           },
-  //         ],
-  //       },
-
-  //       options: {
-  //         scales: {
-  //           yAxes: [{ stacked: true }],
-  //           xAxes: [
-  //             {
-  //               stacked: true,
-  //               ticks: { maxRotation: 90, minRotation: 90 },
-  //             },
-  //           ],
-  //         },
-  //       },
-  //     });
-  // }
-
   render() {
     console.log(this.props, "in pie");
     const { tableData } = this.props;
@@ -49,7 +12,7 @@ class BarChart extends React.Component {
       labels: [...labels],
       datasets: [
         {
-          label: "My First dataset",
+          label: "Impressions Offered",
           backgroundColor: "rgba(255,99,132,0.2)",
           borderColor: "rgba(255,99,132,1)",
           borderWidth: 1,
@@ -60,8 +23,8 @@ class BarChart extends React.Component {
       ],
     };
     return (
-      <div style={{height:"300px"}}>
-        <h2>Bar Example </h2>
+      <div style={{ height: "300px" }}>
+        <h2>Bar Example (custom size)</h2>
         <Bar
           data={dataConfig}
           width={100}
@@ -76,8 +39,6 @@ class BarChart extends React.Component {
 }
 
 const mapProps = (state) => {
-  // const user = state.user;
-  // console.log(state);
   return state.charts;
 };
 

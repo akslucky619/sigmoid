@@ -7,7 +7,6 @@ import { Table } from "antd";
 class TableComp extends React.Component {
   render() {
     const { barData } = this.props;
-    console.log(barData, "in table");
     const columns = [
       {
         title: "Publisher ID",
@@ -40,7 +39,6 @@ class TableComp extends React.Component {
           columns={columns}
           dataSource={data}
           bordered
-          // scroll={{ y: 800 }}
           {...config}
           title={() => "Header"}
           footer={() => "Footer"}

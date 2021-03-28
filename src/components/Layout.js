@@ -1,20 +1,15 @@
 import React from "react";
-import ReactDOM from "react-dom";
-import { useSelector } from "react-redux";
 import { connect } from "react-redux";
 import { ACTIONS } from "../reducers/charts";
-import { getAllPieData } from "../selectors/charts";
 
 import "antd/dist/antd.css";
 import "../index.css";
 
-import { Layout, Menu, Breadcrumb, Affix } from "antd";
+import { Layout, Menu, Breadcrumb, Skeleton, Affix, Spin, Space } from "antd";
 import DemoPie from "./DemoPie";
 import DateRange from "./DateRange";
 import BarChart from "./BarChart";
 import TableComp from "./TableComp";
-import LoginForm from "./LoginForm";
-// import user from "../reducers/user";
 
 const { Header, Content, Footer } = Layout;
 class SiderDemo extends React.Component {
@@ -22,23 +17,19 @@ class SiderDemo extends React.Component {
     const { init } = ACTIONS;
     const { userToken } = this.props;
 
-    // console.log(userToken, "hhhhhhhh");
     userToken && this.props.dispatch(init(userToken));
   }
 
   render() {
-    // console.log(this.props, "-----");
     const {
       pieData,
-      startDate,
-      endDate,
       dispatch,
       userToken,
       tableData,
       barData,
-      login,
+      logout,
+      isLoading,
     } = this.props;
-    console.log(this.props);
 
     let tos = true;
     return (
@@ -46,86 +37,78 @@ class SiderDemo extends React.Component {
         <Header style={{ position: "fixed", zIndex: 1, width: "100%" }}>
           <div className="logo" />
           <Menu theme="dark" mode="horizontal" defaultSelectedKeys={["2"]}>
-            {/* <Menu.Item key="1">nav 1</Menu.Item> */}
             <Menu.Item key="2">Sigmoid</Menu.Item>
-            <Menu.Item key="3"></Menu.Item>
+            <Menu.Item key="3" onClick={dispatch(logout)}>
+              Logout
+            </Menu.Item>
           </Menu>
         </Header>
-        {/* {!userToken && (
-          <div
-            style={{
-              paddingTop: "25px",
-              width: "50%",
-              left: "50",
-              position: "relative",
-              left: "25%",
-            }}
+
+        <>
+          <Content
+            className="site-layout"
+            style={{ padding: "0 50px", marginTop: 64 }}
           >
-            <LoginForm login={login} dispatch={dispatch} />
-          </div>
-        )} */}
-        {userToken && (
-          <>
-            <Content
-              className="site-layout"
-              style={{ padding: "0 50px", marginTop: 64 }}
+            <Breadcrumb style={{ margin: "16px 0" }}>
+              <DateRange userToken={userToken} ACTIONS={ACTIONS} />
+            </Breadcrumb>
+            <div
+              className="site-layout-background"
+              style={{ padding: 24, minHeight: 380 }}
             >
-              <Breadcrumb style={{ margin: "16px 0" }}>
-                <DateRange userToken={userToken} ACTIONS={ACTIONS} />
-              </Breadcrumb>
-              <div
-                className="site-layout-background"
-                style={{ padding: 24, minHeight: 380 }}
-              >
-                {pieData && <DemoPie pieData={pieData} />}
-              </div>
-            </Content>
-            <Content
-              className="site-layout"
-              style={{ padding: "0 50px", marginTop: 64 }}
+              {isLoading && (
+                <>
+                  <Skeleton active />
+                  <Skeleton active />
+                </>
+              )}
+              {pieData && !isLoading && <DemoPie pieData={pieData} />}
+            </div>
+          </Content>
+          <Content
+            className="site-layout"
+            style={{ padding: "0 50px", marginTop: 64 }}
+          >
+            <div
+              className="site-layout-background"
+              style={{ padding: 24, minHeight: 380 }}
             >
-              <Breadcrumb style={{ margin: "16px 0" }}>
-                <Breadcrumb.Item>Home</Breadcrumb.Item>
-                <Breadcrumb.Item>List</Breadcrumb.Item>
-                <Breadcrumb.Item>App</Breadcrumb.Item>
-              </Breadcrumb>
-              <div
-                className="site-layout-background"
-                style={{ padding: 24, minHeight: 380 }}
-              >
-                {tableData.length !== 0 && <BarChart tableData={tableData} />}
-              </div>
-            </Content>
-            <Content
-              className="site-layout"
-              style={{ padding: "0 50px", marginTop: 64 }}
+              {isLoading && (
+                <>
+                  <Skeleton active />
+                  <Skeleton active />
+                </>
+              )}
+              {tableData.length !== 0 && !isLoading && (
+                <BarChart tableData={tableData} />
+              )}
+            </div>
+          </Content>
+          <Content
+            className="site-layout"
+            style={{ padding: "0 50px", marginTop: 64 }}
+          >
+            <div
+              className="site-layout-background"
+              style={{ padding: 24, minHeight: 380 }}
             >
-              <Breadcrumb style={{ margin: "16px 0" }}>
-                <Breadcrumb.Item>Home</Breadcrumb.Item>
-                <Breadcrumb.Item>List</Breadcrumb.Item>
-                <Breadcrumb.Item>App</Breadcrumb.Item>
-              </Breadcrumb>
-              <div
-                className="site-layout-background"
-                style={{ padding: 24, minHeight: 380 }}
-              >
-                {/* {tableData.length !== 0 && <BarChart tableData={tableData} />} */}
-                {barData && <TableComp barData={barData} />}
-              </div>
-            </Content>
-          </>
-        )}
-        <Footer style={{ textAlign: "center" }}>
-          Ant Design ©2018 Created by Ant UED
-        </Footer>
+              {isLoading && (
+                <>
+                  <Skeleton active />
+                  <Skeleton active />
+                </>
+              )}
+              {barData && !isLoading && <TableComp barData={barData} />}
+            </div>
+          </Content>
+        </>
+        <Footer style={{ textAlign: "center" }}></Footer>
       </Layout>
     );
   }
 }
 
 const mapProps = (state) => {
-  // const user = state.user;
-  // console.log(state);
   return state.charts;
 };
 

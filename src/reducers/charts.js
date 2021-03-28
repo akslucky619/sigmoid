@@ -13,6 +13,7 @@ const SET_END_DATE = "SET_END_DATE";
 const SET_DATE_RANGE = "SET_DATE_RANGE";
 const SET_START_DATE_EPOCH = "SET_START_DATE_EPOCH";
 const SET_END_DATE_EPOCH = "SET_END_DATE_EPOCH";
+const SET_IS_LOADING = "SET_IS_LOADING";
 
 const setPieChartData = (pieData) => ({
   type: SET_PIE_CHART_DATA,
@@ -47,13 +48,16 @@ const setEndDateEpoch = (epoch) => ({
   epoch,
 });
 
-// const setDateRange = (date) => ({
-//   type: SET_DATE_RANGE,
-//   date,
-// });
+const setIsLoading = (bool) => ({
+  type: SET_IS_LOADING,
+  bool,
+});
+
+
 
 const init = (userToken) => async (dispatch, getstate) => {
   try {
+    dispatch(setIsLoading(true));
     const piePromise = getChartData(pieUrl, pieBody, userToken);
     const tablePromise = getChartData(tableUrl, tableBody, userToken);
     const barPromise = getChartData(barUrl, barBody, userToken);
@@ -68,7 +72,6 @@ const init = (userToken) => async (dispatch, getstate) => {
     let startDateEpoch = dateApiData && dateApiData.result.startDate;
     let endDateEpoch = dateApiData && dateApiData.result.endDate;
 
-    console.log(startDateEpoch, endDateEpoch, "dateApiData");
 
     // normalize pie data
     let pie = [];
@@ -91,13 +94,7 @@ const init = (userToken) => async (dispatch, getstate) => {
 
     table.labels = [...tableLabels];
     table.data = [...tableData];
-    console.log({ tableLabels, tableData, table });
 
-    // tableApiData &&
-    //   tableApiData.result.data.map(
-    //     (data) => table.labels.push(data.appSiteId),
-    //     table.data.push(Number(data.impressions_offered))
-    //   );
 
     // normalize barApiData data
     let bar = [];
@@ -113,6 +110,8 @@ const init = (userToken) => async (dispatch, getstate) => {
     dispatch(setPieChartData(pie));
     dispatch(setTableChartData(table));
     dispatch(setBarChartData(bar));
+    dispatch(setIsLoading(false));
+
     dispatch(setStartDateEpoch(Number(startDateEpoch)));
     dispatch(setEndDateEpoch(Number(endDateEpoch)));
   } catch (error) {
@@ -132,11 +131,8 @@ const updateChart = (startDate, endDate, userToken) => async (
   dispatch,
   getState
 ) => {
-  // const { startDate } = Date.parse(getState().charts.startDate);
-  // const { endDate } = Date.parse(getState().charts.endDate);
   const startDateEpoch = Date.parse(startDate);
   const endDateEpoch = Date.parse(endDate);
-  console.log({ startDateEpoch, endDateEpoch });
 
   // update pieBody with update date
   let updatePieBody = Object.assign(pieBody);
@@ -153,9 +149,10 @@ const updateChart = (startDate, endDate, userToken) => async (
   updatebarBody.chartObject.requestParam.dateRange.startDate = startDateEpoch.toString();
   updatebarBody.chartObject.requestParam.dateRange.endDate = endDateEpoch.toString();
 
-  // console.log(updatePieBody, "in uuuuuuuuuuuuupppppp");
 
   try {
+    dispatch(setIsLoading(true));
+
     const piePromise = getChartData(pieUrl, updatePieBody, userToken);
     const tablePromise = getChartData(tableUrl, updateTableBody, userToken);
     const barPromise = getChartData(barUrl, updatebarBody, userToken);
@@ -165,9 +162,6 @@ const updateChart = (startDate, endDate, userToken) => async (
       barPromise,
     ]);
 
-    // console.log({ pieApiData });
-    // console.log({ tableApiData });
-    console.log({ barApiData });
     let pie = [];
 
     pieApiData &&
@@ -189,7 +183,6 @@ const updateChart = (startDate, endDate, userToken) => async (
 
     table.labels = [...tableLabels];
     table.data = [...tableData];
-    console.log({ tableLabels, tableData, table });
 
     // normalize barApiData data
     let bar = [];
@@ -205,6 +198,7 @@ const updateChart = (startDate, endDate, userToken) => async (
     dispatch(setPieChartData(pie));
     dispatch(setTableChartData(table));
     dispatch(setBarChartData(bar));
+    dispatch(setIsLoading(false));
   } catch (error) {
     console.log(error);
   }
@@ -219,6 +213,7 @@ export const defaultState = {
   startDateEpoch: null,
   endDateEpoch: null,
   dateRange: {},
+  isLoading: false,
 };
 
 export const ACTIONS = {
@@ -258,6 +253,10 @@ function charts(state = defaultState, action) {
     case SET_END_DATE_EPOCH:
       return Object.assign({}, state, {
         endDateEpoch: action.epoch,
+      });
+    case SET_IS_LOADING:
+      return Object.assign({}, state, {
+        isLoading: action.bool,
       });
     // case SET_DATE_RANGE:
     //   return Object.assign({}, state, {
