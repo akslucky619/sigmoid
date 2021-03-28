@@ -53,8 +53,6 @@ const setIsLoading = (bool) => ({
   bool,
 });
 
-
-
 const init = (userToken) => async (dispatch, getstate) => {
   try {
     dispatch(setIsLoading(true));
@@ -72,12 +70,14 @@ const init = (userToken) => async (dispatch, getstate) => {
     let startDateEpoch = dateApiData && dateApiData.result.startDate;
     let endDateEpoch = dateApiData && dateApiData.result.endDate;
 
-
     // normalize pie data
     let pie = [];
     pieApiData &&
       pieApiData.result.data.map((data) =>
-        pie.push({ type: data.advertiserId, value: Number(data.CM001) })
+        pie.push({
+          type: data.advertiserId,
+          value: Math.ceil(Number(data.CM001)),
+        })
       );
 
     // normalize table data
@@ -94,7 +94,6 @@ const init = (userToken) => async (dispatch, getstate) => {
 
     table.labels = [...tableLabels];
     table.data = [...tableData];
-
 
     // normalize barApiData data
     let bar = [];
@@ -149,7 +148,6 @@ const updateChart = (startDate, endDate, userToken) => async (
   updatebarBody.chartObject.requestParam.dateRange.startDate = startDateEpoch.toString();
   updatebarBody.chartObject.requestParam.dateRange.endDate = endDateEpoch.toString();
 
-
   try {
     dispatch(setIsLoading(true));
 
@@ -166,7 +164,10 @@ const updateChart = (startDate, endDate, userToken) => async (
 
     pieApiData &&
       pieApiData.result.data.map((data) =>
-        pie.push({ type: data.advertiserId, value: Number(data.CM001) })
+        pie.push({
+          type: data.advertiserId,
+          value: Math.ceil(Number(data.CM001)),
+        })
       );
 
     // normalize table data

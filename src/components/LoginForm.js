@@ -29,11 +29,9 @@ const tailLayout = {
 class LoginForm extends React.Component {
   render() {
     const { login, dispatch } = this.props;
-    console.log(this.props, "-----");
 
     const onFinish = (values) => {
       const { username, password } = values;
-      console.log(username);
       dispatch(login(username, password));
     };
 
@@ -47,12 +45,10 @@ class LoginForm extends React.Component {
           <Header style={{ position: "fixed", zIndex: 1, width: "100%" }}>
             <div className="logo" />
             <Menu theme="dark" mode="horizontal" defaultSelectedKeys={["2"]}>
-              {/* <Menu.Item key="1">nav 1</Menu.Item> */}
               <Menu.Item key="2">Sigmoid</Menu.Item>
               <Menu.Item key="3"></Menu.Item>
             </Menu>
           </Header>
-          {/* {!userToken && ( */}
           <div
             style={{
               paddingTop: "25px",
@@ -75,7 +71,6 @@ class LoginForm extends React.Component {
                   onBack={() => null}
                   title="Login"
                   backIcon={<LoginOutlined />}
-                  // subTitle="This is a subtitle"
                   ghost={false}
                 />
                 <div style={{ paddingTop: "10px" }}>
@@ -117,7 +112,6 @@ class LoginForm extends React.Component {
                       name="remember"
                       valuePropName="checked"
                     >
-                      {/* <Checkbox>Remember me</Checkbox> */}
                     </Form.Item>
                     <Form.Item {...tailLayout}>
                       <Button type="primary" htmlType="submit">

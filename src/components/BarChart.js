@@ -4,7 +4,6 @@ import { connect } from "react-redux";
 
 class BarChart extends React.Component {
   render() {
-    console.log(this.props, "in pie");
     const { tableData } = this.props;
 
     const { labels, data } = tableData && tableData;

@@ -8,7 +8,6 @@ import LoginForm from "../LoginForm";
 class Interface extends React.Component {
   componentDidMount() {
     const { init } = ACTIONS;
-    // console.log(this.props);
     this.props.dispatch(init());
   }
   render() {
@@ -25,7 +24,6 @@ class Interface extends React.Component {
 
 const mapProps = (state) => {
   const user = state.user;
-  // console.log(count);
   return user;
 };
 

@@ -21,7 +21,6 @@ class DateRange extends React.Component {
     const { getMinDate, getMaxDate, updateChart } = ACTIONS;
 
     const switchStartDate = startDate && Date.parse(startDate);
-    console.log(switchStartDate, "switch");
 
     return (
       <div style={{ display: "flex" }}>
@@ -64,8 +63,6 @@ class DateRange extends React.Component {
 }
 
 const mapProps = (state) => {
-  // const user = state.user;
-  // console.log(state);
   return state.charts;
 };
 
