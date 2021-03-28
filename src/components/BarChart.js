@@ -23,7 +23,7 @@ class BarChart extends React.Component {
     };
     return (
       <div style={{ height: "300px" }}>
-        <h2>Bar Example (custom size)</h2>
+        <h2>Bar Example</h2>
         <Bar
           data={dataConfig}
           width={100}
