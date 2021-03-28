@@ -69,21 +69,36 @@ const init = (userToken) => async (dispatch, getstate) => {
     let endDateEpoch = dateApiData && dateApiData.result.endDate;
 
     console.log(startDateEpoch, endDateEpoch, "dateApiData");
-    let pie = [];
-    let table = [];
 
+    // normalize pie data
+    let pie = [];
     pieApiData &&
       pieApiData.result.data.map((data) =>
         pie.push({ type: data.advertiserId, value: Number(data.CM001) })
       );
 
-    tableApiData &&
-      tableApiData.result.data.map((data) =>
-        table.push({
-          action: data.appSiteId,
-          pv: Number(data.impressions_offered),
-        })
-      );
+    // normalize table data
+    let table = {
+      labels: [],
+      data: [],
+    };
+
+    const tableLabels =
+      tableApiData && tableApiData.result.data.map((data) => data.appSiteId);
+    const tableData =
+      tableApiData &&
+      tableApiData.result.data.map((data) => Number(data.impressions_offered));
+
+    table.labels = [...tableLabels];
+    table.data = [...tableData];
+    console.log({ tableLabels, tableData, table });
+
+    // tableApiData &&
+    //   tableApiData.result.data.map(
+    //     (data) => table.labels.push(data.appSiteId),
+    //     table.data.push(Number(data.impressions_offered))
+    //   );
+
     dispatch(setPieChartData(pie));
     dispatch(setTableChartData(table));
     dispatch(setBarChartData(barApiData));
@@ -118,41 +133,56 @@ const updateChart = (startDate, endDate, userToken) => async (
   updatePieBody.chartObject.requestParam.dateRange.endDate = endDateEpoch.toString();
 
   // update tableBody with update date
-  // let updateTableBody = tableBody;
-  // updateTableBody.chartObject.requestParam.dateRange.startDate = startDateEpoch;
-  // updateTableBody.chartObject.requestParam.dateRange.endDate = endDateEpoch;
+  let updateTableBody = tableBody;
+  updateTableBody.chartObject.requestParam.dateRange.startDate = startDateEpoch.toString();
+  updateTableBody.chartObject.requestParam.dateRange.endDate = endDateEpoch.toString();
 
   // // update barBody with update date
   // let updatebarBody = barBody;
   // updatebarBody.chartObject.requestParam.dateRange.startDate = startDateEpoch;
   // updatebarBody.chartObject.requestParam.dateRange.endDate = endDateEpoch;
 
-  console.log(updatePieBody, "in uuuuuuuuuuuuupppppp");
+  // console.log(updatePieBody, "in uuuuuuuuuuuuupppppp");
 
   try {
     const piePromise = getChartData(pieUrl, updatePieBody, userToken);
-    // const tablePromise = getChartData(tableUrl, tableBody, userToken);
+    const tablePromise = getChartData(tableUrl, tableBody, userToken);
     // const barPromise = getChartData(barUrl, barBody, userToken);
     const [
       pieApiData,
-      //  tableApiData,
+      tableApiData,
       // barApiData
     ] = await Promise.all([
       piePromise,
-      // tablePromise,
+      tablePromise,
       // barPromise,
     ]);
 
-    console.log({ pieApiData });
-    // console.log({ tableApiData });
+    // console.log({ pieApiData });
+    console.log({ tableApiData });
     // console.log({ barApiData });
     let pie = [];
-    let table = [];
 
     pieApiData &&
       pieApiData.result.data.map((data) =>
         pie.push({ type: data.advertiserId, value: Number(data.CM001) })
       );
+
+    // normalize table data
+    let table = {
+      labels: [],
+      data: [],
+    };
+
+    const tableLabels =
+      tableApiData && tableApiData.result.data.map((data) => data.appSiteId);
+    const tableData =
+      tableApiData &&
+      tableApiData.result.data.map((data) => Number(data.impressions_offered));
+
+    table.labels = [...tableLabels];
+    table.data = [...tableData];
+    console.log({ tableLabels, tableData, table });
 
     // tableApiData &&
     //   tableApiData.result.data.map((data) =>
@@ -163,7 +193,7 @@ const updateChart = (startDate, endDate, userToken) => async (
     //   );
 
     dispatch(setPieChartData(pie));
-    // dispatch(setTableChartData(table));
+    dispatch(setTableChartData(table));
     // dispatch(setBarChartData(barApiData));
   } catch (error) {
     console.log(error);

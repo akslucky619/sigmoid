@@ -11,7 +11,8 @@ import "../index.css";
 import { Layout, Menu, Breadcrumb } from "antd";
 import DemoPie from "./DemoPie";
 import DateRange from "./DateRange";
-import Bar from './Bar'
+import BarChart from "./BarChart";
+import TableComp from "./TableComp";
 // import user from "../reducers/user";
 
 const { Header, Content, Footer } = Layout;
@@ -25,8 +26,16 @@ class SiderDemo extends React.Component {
   }
 
   render() {
-    console.log(this.props, "-----");
-    const { pieData, startDate, endDate, dispatch, userToken } = this.props;
+    // console.log(this.props, "-----");
+    const {
+      pieData,
+      startDate,
+      endDate,
+      dispatch,
+      userToken,
+      tableData,
+    } = this.props;
+    console.log({ tableData });
     return (
       <Layout>
         <Header style={{ position: "fixed", zIndex: 1, width: "100%" }}>
@@ -64,7 +73,24 @@ class SiderDemo extends React.Component {
             className="site-layout-background"
             style={{ padding: 24, minHeight: 380 }}
           >
-           <Bar/>
+            {tableData.length !== 0 && <BarChart tableData={tableData} />}
+          </div>
+        </Content>
+        <Content
+          className="site-layout"
+          style={{ padding: "0 50px", marginTop: 64 }}
+        >
+          <Breadcrumb style={{ margin: "16px 0" }}>
+            <Breadcrumb.Item>Home</Breadcrumb.Item>
+            <Breadcrumb.Item>List</Breadcrumb.Item>
+            <Breadcrumb.Item>App</Breadcrumb.Item>
+          </Breadcrumb>
+          <div
+            className="site-layout-background"
+            style={{ padding: 24, minHeight: 380 }}
+          >
+            {/* {tableData.length !== 0 && <BarChart tableData={tableData} />} */}
+            <TableComp />
           </div>
         </Content>
         <Footer style={{ textAlign: "center" }}>
